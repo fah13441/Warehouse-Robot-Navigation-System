@@ -1,12 +1,19 @@
 #include "ItemSearchManager.hpp"
 #include "OrderQueue.hpp"
 #include <iostream>
+#include "RobotAssignment.hpp"
 
 using namespace std;
 
 int main() {
     ItemSearchManager inventorySystem; 
-    OrderQueue orderSystem;            
+    OrderQueue orderSystem;    
+    RobotAssignment robotSystem(5);    
+    robotSystem.addRobot("R001", "Robot Alpha");
+    robotSystem.addRobot("R002", "Robot Beta");
+    robotSystem.addRobot("R003", "Robot Gamma");
+    robotSystem.updateRobotStatus("R002", "Maintenance");
+    robotSystem.displayRobots();    
 
     cout << "==========================================\n";
     cout << "  WAREHOUSE ROBOT SYSTEM INITIALIZATION   \n";
@@ -36,14 +43,22 @@ int main() {
     
     while (!orderSystem.isEmpty()) {
         if (orderSystem.dequeue(currentOrder)) {
-            cout << "\n[Robot] Now processing Order: " << currentOrder.orderID << "...\n";
-            cout << "[Robot] Querying database for Item ID: " << currentOrder.itemID << "...\n";
-            
-            inventorySystem.searchItem(currentOrder.itemID); 
+           cout << "\n[System] Processing Order " << currentOrder.orderID << ".\n";
+
+if (robotSystem.assignTask(currentOrder.orderID)) {
+    cout << "[System] Robot assigned successfully.\n";
+    cout << "[Robot] Querying database for Item ID: " << currentOrder.itemID << "...\n";
+
+    inventorySystem.searchItem(currentOrder.itemID);
+
+    robotSystem.completeTask(robotSystem.getLastAssignedRobotID());
+} else {
+    cout << "[System] Order could not be assigned because no robot is available.\n";
+}
         }
     }
 
     cout << "\n[System] All orders have been processed. Queue is empty.\n";
-
+robotSystem.displayRobots();
     return 0;
 }
