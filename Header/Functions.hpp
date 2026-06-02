@@ -140,6 +140,42 @@ public:
 
 // ========================================================================= Warehouse Layout & Navigation: Altayeb Abdelgadir Mohamed (TP085687) =========================================================================
 
-// [Altayeb's structs and classes will go here]
+
+struct WarehouseNode {
+    string name;
+    WarehouseNode* firstChild;
+    WarehouseNode* nextSibling;
+
+    WarehouseNode(string nodeName)
+        : name(nodeName), firstChild(nullptr), nextSibling(nullptr) {
+    }
+};
+
+class WarehouseLayout {
+private:
+    WarehouseNode* root;
+
+    void displayRecursive(WarehouseNode* node, int level);
+    WarehouseNode* findNode(WarehouseNode* node, string name);
+    bool findPathRecursive(WarehouseNode* node,
+        string destination,
+        string path[],
+        int& pathLength);
+    void clearTree(WarehouseNode* node);
+
+public:
+    WarehouseLayout();
+    ~WarehouseLayout();
+
+    void createWarehouse();
+
+    void addLocation(string parentName, string locationName);
+
+    void displayLayout();
+
+    void traverseLayout();
+
+    void findRoute(string destination);
+};
 
 #endif
