@@ -22,6 +22,14 @@ int main() {
     inventorySystem.insertItem("ITM002", "Mechanical Keyboard", "Zone A, Aisle 4, Shelf B");
     inventorySystem.displayInventory();
 
+    WarehouseLayout warehouse;
+
+    warehouse.createWarehouse();
+
+    warehouse.displayLayout();
+
+    warehouse.findRoute("Shelf B2-1");
+
     // --------------------------------------------------------- ORDER QUEUING: Fahad Bin Zaharuddin Fikri (TP085541) ---------------------------------------------------------
     
     cout << "\n========================================== SIMULATING INCOMING ORDERS ==========================================\n";
